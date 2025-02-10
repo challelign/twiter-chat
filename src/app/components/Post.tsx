@@ -4,7 +4,31 @@ import PostInfo from "./PostInfo";
 import PostInteractions from "./PostInteractions";
 import ImageKit from "./ImageKit";
 
-const Post = () => {
+import { imagekit } from "../utils/utils";
+import { SingleFileResponse } from "../types";
+import SensitiveContent from "./SensitiveContent";
+
+const Post = async () => {
+  // FETCH POST MEDIA
+
+  const getFileDetails = async (
+    fileId: string
+  ): Promise<SingleFileResponse> => {
+    return new Promise((resolve, reject) => {
+      imagekit.getFileDetails(fileId, function (error, result) {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result as SingleFileResponse);
+        }
+      });
+    });
+  };
+
+  const fileDetails = await getFileDetails("67a9f0a0432c4764167af7ba");
+
+  console.log(fileDetails);
+
   return (
     <div className="p-4 border-y-[1px] border-borderGray">
       {/* Post Type */}
@@ -52,7 +76,29 @@ const Post = () => {
               beatae aliquid minus, et exercitationem at aliquam!
             </p>
           </div>
-          <ImageKit src={"/general/post.jpeg"} alt="" w={600} h={600} />
+
+          <div className="relative items-center justify-center rounded-xl overflow-hidden">
+            {fileDetails && (
+              <ImageKit
+                src={fileDetails.filePath}
+                alt=""
+                w={fileDetails.width}
+                h={fileDetails.height}
+                className={
+                  fileDetails.customMetadata?.sensitive ? "blur-lg" : ""
+                }
+              />
+            )}
+            {/* <div
+              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white py-1 px-4 rounded-full font-bold text-sm cursor-pointer"
+              onClick={() => handleClickVisible(fileDetails?.fileId)}
+            >
+              The content is sensitive
+            </div> */}
+            {fileDetails.customMetadata?.sensitive && (
+              <SensitiveContent fileId={fileDetails.fileId} />
+            )}
+          </div>
           <PostInteractions />
         </div>
       </div>

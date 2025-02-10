@@ -25,6 +25,7 @@ const ImageKit = ({ src, w, h, alt, className, tr }: ImageKitType) => {
         width={w}
         height={h}
         alt={alt}
+        className={className}
       />
     </div>
   );

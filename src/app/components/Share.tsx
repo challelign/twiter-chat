@@ -39,7 +39,7 @@ const Share = () => {
           className="border-b-red-200/15 border-b-2  bg-transparent outline-none placeholder:text-textGray text-xl "
         />
         {/* PREVIEW IMAGE */}
-        {previewURL && (
+        {media?.type.includes("image") && previewURL && (
           <div className="relative rounded-xl overflow-hidden">
             {/* <ImageKit src={previewURL} w={600} h={600} alt="Preview URL" /> */}
             <Image
@@ -59,9 +59,26 @@ const Share = () => {
             >
               Edit
             </div>
+            <div
+              onClick={() => setMedia(null)}
+              className="absolute font-bold cursor-pointer text-sm top-2 right-2 bg-black bg-opacity-50 text-white h-8 w-8 flex items-center justify-center rounded-full"
+            >
+              X
+            </div>
           </div>
         )}
 
+        {media?.type.includes("video") && previewURL && (
+          <div className="relative">
+            <video src={previewURL} controls />
+            <div
+              onClick={() => setMedia(null)}
+              className="absolute font-bold cursor-pointer text-sm top-2 right-2 bg-black bg-opacity-50 text-white h-8 w-8 flex items-center justify-center rounded-full"
+            >
+              X
+            </div>
+          </div>
+        )}
         {isEditorOpen && previewURL && (
           <ImageEditor
             onClose={() => setIsEditorOpen(false)}
