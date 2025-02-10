@@ -3,9 +3,16 @@ import React, { useState } from "react";
 import ImageKit from "./ImageKit";
 import { shareAction } from "../actions/shareAction";
 import Image from "next/image";
+import ImageEditor from "./ImageEditor";
 
 const Share = () => {
   const [media, setMedia] = useState<File | null>(null);
+  const [isEditorOpen, setIsEditorOpen] = useState(false);
+  const [settings, setSettings] = useState<{
+    type: "original" | "wide" | "square";
+    sensitive: boolean;
+  }>({ type: "original", sensitive: false });
+
   const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setMedia(e.target.files[0]);
@@ -14,7 +21,11 @@ const Share = () => {
 
   const previewURL = media ? URL.createObjectURL(media) : null;
   return (
-    <form action={shareAction} className="p-4 flex gap-4">
+    // <form action={shareAction} className="p-4 flex gap-4">
+    <form
+      action={(formData) => shareAction(formData, settings)}
+      className="p-4 flex gap-4"
+    >
       {/* AVATAR */}
       <div className="relative w-10 h-10 rounded-full overflow-hidden">
         <ImageKit src={"/general/avatar.png"} alt="" w={100} h={100} />
@@ -36,13 +47,29 @@ const Share = () => {
               width={600}
               height={600}
               alt="Preview URL"
+              className={`w-full ${
+                settings.type === "square"
+                  ? "aspect-square object-cover"
+                  : "aspect-video object-cover"
+              }`}
             />
-            <div className="absolute top-2 left-2 bg-black bg-opacity-50 text-white py-1 px-4 rounded-full font-bold text-sm cursor-pointer">
+            <div
+              className="absolute top-2 left-2 bg-black bg-opacity-50 text-white py-1 px-4 rounded-full font-bold text-sm cursor-pointer"
+              onClick={() => setIsEditorOpen(true)}
+            >
               Edit
             </div>
           </div>
         )}
 
+        {isEditorOpen && previewURL && (
+          <ImageEditor
+            onClose={() => setIsEditorOpen(false)}
+            previewUrl={previewURL}
+            settings={settings}
+            setSettings={setSettings}
+          />
+        )}
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div className="flex gap-4 flex-wrap">
             <input
