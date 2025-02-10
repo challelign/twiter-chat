@@ -1,5 +1,5 @@
-import React from 'react'
-import Post from './Post'
+import React from "react";
+import Post from "./Post";
 
 const Feed = () => {
   return (
@@ -10,6 +10,6 @@ const Feed = () => {
       <Post />
     </div>
   );
-}
+};
 
-export default Feed
+export default Feed;

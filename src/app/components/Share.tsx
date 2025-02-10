@@ -1,12 +1,13 @@
 import Image from "next/image";
 import React from "react";
+import ImageKit from "./ImageKit";
 
 const Share = () => {
   return (
     <div className="p-4 flex gap-4">
       {/* AVATAR */}
       <div className="relative w-10 h-10 rounded-full overflow-hidden">
-        <Image src={"/general/avatar.png"} alt="" width={100} height={100} />
+        <ImageKit src={"/general/avatar.png"} alt="" w={100} h={100} />
       </div>
       {/* Others */}
       <div className="flex-1 flex flex-col gap-4  ">

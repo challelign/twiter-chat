@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 import PostInfo from "./PostInfo";
 import PostInteractions from "./PostInteractions";
+import ImageKit from "./ImageKit";
 
 const Post = () => {
   return (
@@ -26,7 +27,7 @@ const Post = () => {
       <div className="flex gap-4">
         {/* AVATAR */}
         <div className="relative w-10 h-10 rounded-full overflow-hidden">
-          <Image src={"/general/avatar.png"} alt="" width={100} height={100} />
+          <ImageKit src={"/general/avatar.png"} alt="" w={100} h={100} />
         </div>
         {/* CONTENT  */}
         <div className="flex flex-1 flex-col gap-2">
@@ -51,7 +52,7 @@ const Post = () => {
               beatae aliquid minus, et exercitationem at aliquam!
             </p>
           </div>
-          <Image src={"/general/post.jpeg"} alt="" width={600} height={600} />
+          <ImageKit src={"/general/post.jpeg"} alt="" w={600} h={600} />
           <PostInteractions />
         </div>
       </div>

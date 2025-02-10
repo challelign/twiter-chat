@@ -1,8 +1,8 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { menuList } from "../constants/menu";
+import ImageKit from "./ImageKit";
 
 const LeftBar = () => {
   return (
@@ -11,7 +11,7 @@ const LeftBar = () => {
       <div className="flex flex-col gap-4 text-lg items-center xxl:items-start">
         {/* LOGO */}
         <Link href="/" className="p-2 rounded-full hover:bg-[#181818] ">
-          <Image src="icons/logo.svg" alt="logo" width={24} height={24} />
+          <ImageKit src="/icons/logo.svg" alt="logo" w={24} h={24} />
         </Link>
         {/* MENU LIST */}
         <div className="flex flex-col gap-4  xsm:hidden ">
@@ -21,11 +21,11 @@ const LeftBar = () => {
               className="p-2 rounded-full hover:bg-[#181818] flex items-center gap-4"
               key={item.id}
             >
-              <Image
-                src={`icons/${item.icon}`}
+              <ImageKit
+                src={`/icons/${item.icon}`}
                 alt={item.name}
-                width={24}
-                height={24}
+                w={24}
+                h={24}
               />
               <span className="hidden xxl:inline">{item.name}</span>
             </Link>
@@ -39,11 +39,11 @@ const LeftBar = () => {
               className="p-2 rounded-full hover:bg-[#181818] flex items-center gap-4  xsm:gap-1"
               key={item.id}
             >
-              <Image
-                src={`icons/${item.icon}`}
+              <ImageKit
+                src={`/icons/${item.icon}`}
                 alt={item.name}
-                width={20}
-                height={20}
+                w={20}
+                h={20}
                 className="xsm:text-sm xsm:p-0"
               />
               <span className="hidden xxl:inline">{item.name}</span>
@@ -57,7 +57,7 @@ const LeftBar = () => {
           href="/compose/post"
           className="bg-white text-black rounded-full w-12 h-12 flex items-center justify-center xxl:hidden"
         >
-          <Image src="icons/post.svg" alt="new post" width={24} height={24} />
+          <ImageKit src="/icons/post.svg" alt="new post" w={24} h={24} />
         </Link>
         <Link
           href="/compose/post"
@@ -70,11 +70,12 @@ const LeftBar = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-10 h-10 relative rounded-full overflow-hidden">
-            <Image
+            <ImageKit
               src="/general/avatar.png"
               alt="code rookie"
-              height={100}
-              width={100}
+              h={100}
+              w={100}
+              tr={true}
             />
           </div>
           <div className="hidden xxl:flex flex-col">
