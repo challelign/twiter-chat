@@ -29,47 +29,47 @@ const Share = () => {
               accept="image/*,video/*"
             />
             <label htmlFor="file">
-              <Image
+              <ImageKit
                 src="icons/image.svg"
                 alt=""
-                width={20}
-                height={20}
+                w={20}
+                h={20}
                 className="cursor-pointer"
               />
             </label>
-            <Image
+            <ImageKit
               src="icons/gif.svg"
               alt=""
-              width={20}
-              height={20}
+              w={20}
+              h={20}
               className="cursor-pointer"
             />
-            <Image
+            <ImageKit
               src="icons/poll.svg"
               alt=""
-              width={20}
-              height={20}
+              w={20}
+              h={20}
               className="cursor-pointer"
             />
-            <Image
+            <ImageKit
               src="icons/emoji.svg"
               alt=""
-              width={20}
-              height={20}
+              w={20}
+              h={20}
               className="cursor-pointer"
             />
-            <Image
+            <ImageKit
               src="icons/schedule.svg"
               alt=""
-              width={20}
-              height={20}
+              w={20}
+              h={20}
               className="cursor-pointer"
             />
-            <Image
+            <ImageKit
               src="icons/location.svg"
               alt=""
-              width={20}
-              height={20}
+              w={20}
+              h={20}
               className="cursor-pointer"
             />
           </div>
