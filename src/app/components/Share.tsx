@@ -1,10 +1,20 @@
-import Image from "next/image";
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import ImageKit from "./ImageKit";
+import { shareAction } from "../actions/shareAction";
+import Image from "next/image";
 
 const Share = () => {
+  const [media, setMedia] = useState<File | null>(null);
+  const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setMedia(e.target.files[0]);
+    }
+  };
+
+  const previewURL = media ? URL.createObjectURL(media) : null;
   return (
-    <div className="p-4 flex gap-4">
+    <form action={shareAction} className="p-4 flex gap-4">
       {/* AVATAR */}
       <div className="relative w-10 h-10 rounded-full overflow-hidden">
         <ImageKit src={"/general/avatar.png"} alt="" w={100} h={100} />
@@ -18,6 +28,20 @@ const Share = () => {
           className="border-b-red-200/15 border-b-2  bg-transparent outline-none placeholder:text-textGray text-xl "
         />
         {/* PREVIEW IMAGE */}
+        {previewURL && (
+          <div className="relative rounded-xl overflow-hidden">
+            {/* <ImageKit src={previewURL} w={600} h={600} alt="Preview URL" /> */}
+            <Image
+              src={previewURL}
+              width={600}
+              height={600}
+              alt="Preview URL"
+            />
+            <div className="absolute top-2 left-2 bg-black bg-opacity-50 text-white py-1 px-4 rounded-full font-bold text-sm cursor-pointer">
+              Edit
+            </div>
+          </div>
+        )}
 
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div className="flex gap-4 flex-wrap">
@@ -26,6 +50,7 @@ const Share = () => {
               name="file"
               className="hidden"
               id="file"
+              onChange={handleMediaChange}
               accept="image/*,video/*"
             />
             <label htmlFor="file">
@@ -78,7 +103,7 @@ const Share = () => {
           </button>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 
