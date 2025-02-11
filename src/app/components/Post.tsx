@@ -7,6 +7,7 @@ import ImageKit from "./ImageKit";
 import { imagekit } from "../utils/utils";
 import { SingleFileResponse } from "../types";
 import SensitiveContent from "./SensitiveContent";
+import VideoKit from "./VideoKit";
 
 const Post = async () => {
   // FETCH POST MEDIA
@@ -25,7 +26,9 @@ const Post = async () => {
     });
   };
 
-  const fileDetails = await getFileDetails("67a9f0a0432c4764167af7ba");
+  // const fileDetails = await getFileDetails("67aaf83a432c476416a9fbd8");
+  // const fileDetails = await getFileDetails("67a9f0a0432c4764167af7ba"); //CONTENT IS SENSITIVE
+  const fileDetails = await getFileDetails("67ab079e432c476416f82337"); //video
 
   console.log(fileDetails);
 
@@ -78,7 +81,7 @@ const Post = async () => {
           </div>
 
           <div className="relative items-center justify-center rounded-xl overflow-hidden">
-            {fileDetails && (
+            {fileDetails && fileDetails.fileType === "image" ? (
               <ImageKit
                 src={fileDetails.filePath}
                 alt=""
@@ -88,13 +91,15 @@ const Post = async () => {
                   fileDetails.customMetadata?.sensitive ? "blur-lg" : ""
                 }
               />
+            ) : (
+              <VideoKit
+                src={fileDetails.filePath}
+                className={
+                  fileDetails.customMetadata?.sensitive ? "blur-lg" : ""
+                }
+              />
             )}
-            {/* <div
-              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white py-1 px-4 rounded-full font-bold text-sm cursor-pointer"
-              onClick={() => handleClickVisible(fileDetails?.fileId)}
-            >
-              The content is sensitive
-            </div> */}
+
             {fileDetails.customMetadata?.sensitive && (
               <SensitiveContent fileId={fileDetails.fileId} />
             )}

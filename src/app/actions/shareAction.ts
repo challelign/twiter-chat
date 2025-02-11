@@ -30,9 +30,14 @@ export const shareAction = async (
       file: buffer,
       fileName: currentDate + "-" + file.name,
       folder: "/posts",
-      transformation: {
-        pre: transformation,
-      },
+      // transformation: {
+      //   pre: transformation,
+      // },
+      ...(file.type.includes("image") && {
+        transformation: {
+          pre: transformation,
+        },
+      }),
       customMetadata: {
         sensitive: settings.sensitive,
       },

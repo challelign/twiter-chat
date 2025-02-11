@@ -126,7 +126,7 @@ const ImageEditor = ({
             }`}
             onClick={() => handleClickSensitive(!settings.sensitive)}
           >
-            {settings.sensitive ? "the content is sensitive" : "make sensitive"}
+            {settings.sensitive ? "The content is sensitive" : "Make sensitive"}
           </div>
         </div>
       </div>

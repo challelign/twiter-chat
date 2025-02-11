@@ -67,7 +67,7 @@ const Share = () => {
             </div>
           </div>
         )}
-
+        {/* PREVIEW VIDEO */}
         {media?.type.includes("video") && previewURL && (
           <div className="relative">
             <video src={previewURL} controls />
@@ -79,6 +79,7 @@ const Share = () => {
             </div>
           </div>
         )}
+        {/* WHEN CLICK EDIT THIS MODAL IS OPEN */}
         {isEditorOpen && previewURL && (
           <ImageEditor
             onClose={() => setIsEditorOpen(false)}

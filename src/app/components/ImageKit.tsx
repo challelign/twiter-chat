@@ -26,6 +26,7 @@ const ImageKit = ({ src, w, h, alt, className, tr }: ImageKitType) => {
         height={h}
         alt={alt}
         className={className}
+        lqip={{ active: true, quality: 20 }}
       />
     </div>
   );
