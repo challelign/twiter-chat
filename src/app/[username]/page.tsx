@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import ImageKit from "../components/ImageKit";
+import Feed from "../components/Feed";
 
 const UserPage = () => {
   return (
@@ -92,6 +93,7 @@ const UserPage = () => {
           </div>
         </div>
       </div>
+      <Feed />
     </div>
   );
 };

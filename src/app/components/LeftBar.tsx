@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { menuList } from "../constants/menu";
 import ImageKit from "./ImageKit";
+import Feed from "./Feed";
 
 const LeftBar = () => {
   return (
@@ -54,7 +55,7 @@ const LeftBar = () => {
 
         {/*POST BUTTON */}
         <Link
-          href="/compose/post"
+          href={"/compose/post"}
           className="bg-white text-black rounded-full w-12 h-12 flex items-center justify-center xxl:hidden"
         >
           <ImageKit src="/icons/post.svg" alt="new post" w={24} h={24} />
@@ -68,7 +69,7 @@ const LeftBar = () => {
       </div>
       {/* USER */}
       <div className="flex items-center justify-between">
-        <Link href={"/username"}>
+        <Link href={"/compose/post"}>
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 relative rounded-full overflow-hidden">
               <ImageKit
