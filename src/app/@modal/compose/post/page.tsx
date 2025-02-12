@@ -17,7 +17,10 @@ const PostModal = () => {
       <div className="py-4 px-8 rounded-xl bg-black w-[600px] h-max mt-12">
         {/* TOP */}
         <div className="flex items-center justify-between">
-          <div className="cursor-pointer" onClick={closeModal}>
+          <div
+            className=" font-bold cursor-pointer text-sm top-2 right-2 bg-red-800/20 bg-opacity-50 text-white h-8 w-8 flex items-center justify-center rounded-full"
+            onClick={closeModal}
+          >
             X
           </div>
           <div className="text-iconBlue font-bold">Drafts</div>

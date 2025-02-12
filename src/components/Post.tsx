@@ -8,8 +8,9 @@ import { imagekit } from "../utils/utils";
 import { SingleFileResponse } from "../types";
 import SensitiveContent from "./SensitiveContent";
 import VideoKit from "./VideoKit";
+import Link from "next/link";
 
-const Post = async () => {
+const Post = async ({ type }: { type?: "status" | "comment" }) => {
   // FETCH POST MEDIA
 
   const getFileDetails = async (
@@ -51,33 +52,67 @@ const Post = async () => {
         <span>Code rookie reposted</span>
       </div>
       {/* POST CONTENT */}
-      <div className="flex gap-4">
+      {/* <div className="flex gap-4"> */}
+      <div className={`flex gap-4 ${type === "status" && "flex-col"}`}>
         {/* AVATAR */}
-        <div className="relative w-10 h-10 rounded-full overflow-hidden">
+        {/* <div className="relative w-10 h-10 rounded-full overflow-hidden"> */}
+        <div
+          className={`${
+            type === "status" && "hidden"
+          } relative w-10 h-10 rounded-full overflow-hidden`}
+        >
           <ImageKit src={"/general/avatar.png"} alt="" w={100} h={100} />
         </div>
         {/* CONTENT  */}
         <div className="flex flex-1 flex-col gap-2">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h1 className="text-md font-bold">Code Rookie</h1>
-              <span className="text-textGray">@code_rooki</span>
-              <span className="text-textGray">1 day ago</span>
-              {/* TOP */}
-            </div>
+          <div className="w-full flex justify-between">
+            <Link href={`/coderookie`} className="flex gap-4">
+              <div
+                className={`${
+                  type !== "status" && "hidden"
+                } relative w-10 h-10 rounded-full overflow-hidden`}
+              >
+                <ImageKit
+                  src="general/avatar.png"
+                  alt=""
+                  w={100}
+                  h={100}
+                  tr={true}
+                />
+              </div>
+              <div
+                className={`flex items-center gap-2 flex-wrap ${
+                  type === "status" && "flex-col gap-0 !items-start"
+                }`}
+              >
+                <h1 className="text-md font-bold">Code Rookie</h1>
+                <span
+                  className={`text-textGray ${type === "status" && "text-sm"}`}
+                >
+                  @codeRookie
+                </span>
+                {type !== "status" && (
+                  <span className="text-textGray">1 day ago</span>
+                )}
+              </div>
+            </Link>
             <PostInfo />
           </div>
+
           {/* Media and text */}
           <div className="">
-            <p className="text-justify">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Velit
-              quo error dignissimos accusamus vero non alias sed facere sapiente
-              inventore esse molestiae, reprehenderit, beatae aliquid minus, et
-              exercitationem at aliquam! Lorem ipsum dolor sit amet consectetur,
-              adipisicing elit. Velit quo error dignissimos accusamus vero non
-              alias sed facere sapiente inventore esse molestiae, reprehenderit,
-              beatae aliquid minus, et exercitationem at aliquam!
-            </p>
+            <Link href={`/codeRookie/status/123`}>
+              <p className={`${type === "status" && "text-lg"}`}>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Velit
+                quo error dignissimos accusamus vero non alias sed facere
+                sapiente inventore esse molestiae, reprehenderit, beatae aliquid
+                minus, et exercitationem at aliquam! Lorem ipsum dolor sit amet
+                consectetur, adipisicing elit. Velit quo error dignissimos
+                accusamus vero non alias sed facere sapiente inventore esse
+                molestiae, reprehenderit, beatae aliquid minus, et
+                exercitationem at aliquam!
+              </p>
+            </Link>
           </div>
 
           <div className="relative items-center justify-center rounded-xl overflow-hidden">
@@ -104,6 +139,9 @@ const Post = async () => {
               <SensitiveContent fileId={fileDetails.fileId} />
             )}
           </div>
+          {type === "status" && (
+            <span className="text-textGray">8:41 PM · Feb 5, 2025</span>
+          )}
           <PostInteractions />
         </div>
       </div>
