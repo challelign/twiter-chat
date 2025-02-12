@@ -11,7 +11,9 @@ const PostModal = () => {
   };
 
   return (
-    <div className="absolute w-screen h-screen top-0 left-0 z-20 bg-[#293139a6] flex justify-center">
+    // <div className="absolute w-screen h-screen top-0 left-0 z-20 bg-[#293139a6] flex justify-center">
+    // this will remove scroll effect
+    <div className="fixed inset-0 z-50 bg-[#293139a6]  flex justify-center items-start overflow-hidden">
       <div className="py-4 px-8 rounded-xl bg-black w-[600px] h-max mt-12">
         {/* TOP */}
         <div className="flex items-center justify-between">
