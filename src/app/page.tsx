@@ -1,9 +1,6 @@
-import Image from "next/image";
 import Feed from "../components/Feed";
 import Share from "../components/Share";
 import Link from "next/link";
-import ImageKit from "../components/ImageKit";
-import { ImageKitProvider, IKImage } from "imagekitio-next";
 
 const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
 const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
@@ -28,14 +25,6 @@ const authenticator = async () => {
 const Homepage = () => {
   return (
     <div className="">
-      {/* <ImageKit
-        path={"/general/post.jpeg"}
-        alt="logo"
-        h={600}
-        w={600}
-        className="relative"
-      /> */}
-
       <div className="px-4 pt-4  flex justify-between text-textGray font-bold border-b-[1px] border-borderGray">
         <Link className="pb-3 items-center border-b-4 border-iconBlue" href="/">
           For you
