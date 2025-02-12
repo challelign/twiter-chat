@@ -1,6 +1,6 @@
 "use client";
 
-import ImageKit from "@/app/components/ImageKit";
+import ImageKit from "@/components/ImageKit";
 import { useRouter } from "next/navigation";
 
 const PostModal = () => {

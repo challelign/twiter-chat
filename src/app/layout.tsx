@@ -1,5 +1,5 @@
-import LeftBar from "./components/LeftBar";
-import RightBar from "./components/RightBar";
+import LeftBar from "../components/LeftBar";
+import RightBar from "../components/RightBar";
 import type { Metadata } from "next";
 import "./globals.css";
 export const metadata: Metadata = {
