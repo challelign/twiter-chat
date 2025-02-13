@@ -9,10 +9,12 @@ import { SingleFileResponse } from "../types";
 import SensitiveContent from "./SensitiveContent";
 import VideoKit from "./VideoKit";
 import Link from "next/link";
+import { prisma } from "@/db/dbConnection";
 
 const Post = async ({ type }: { type?: "status" | "comment" }) => {
   // FETCH POST MEDIA
-
+  const users = await prisma.user.findMany();
+  const data = JSON.stringify(users);
   const getFileDetails = async (
     fileId: string
   ): Promise<SingleFileResponse> => {
@@ -37,6 +39,7 @@ const Post = async ({ type }: { type?: "status" | "comment" }) => {
     <div className="p-4 border-y-[1px] border-borderGray">
       {/* Post Type */}
 
+      {data}
       <div className="flex items-center gap-2 text-sm text-textGray mb-2 from-bold">
         <svg
           xmlns="http://www.w3.org/2000/svg"
