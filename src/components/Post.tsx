@@ -10,11 +10,49 @@ import SensitiveContent from "./SensitiveContent";
 import VideoKit from "./VideoKit";
 import Link from "next/link";
 import { prisma } from "@/db/dbConnection";
+import { comment } from "postcss";
 
 const Post = async ({ type }: { type?: "status" | "comment" }) => {
   // FETCH POST MEDIA
-  const users = await prisma.user.findMany();
-  const data = JSON.stringify(users);
+  const post = await prisma.post.findMany({
+    include: {
+      comments: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              username: true,
+              displayName: true,
+              img: true, // Include user profile image
+            },
+          },
+        },
+      },
+      likes: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              username: true,
+              displayName: true,
+              img: true,
+            },
+          },
+        },
+      },
+      user: {
+        select: {
+          id: true,
+          username: true,
+          displayName: true,
+          img: true,
+        },
+      },
+    },
+  });
+  console.log("[USERS_DATA]", post);
+  const data = JSON.stringify(post);
+
   const getFileDetails = async (
     fileId: string
   ): Promise<SingleFileResponse> => {

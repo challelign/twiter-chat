@@ -31,6 +31,8 @@ model User {
 
   followers  Follow[] @relation("UserFollowers")
   followings Follow[] @relation("UserFollowings")
+
+  @@index([id]) // Faster querying of user's posts
 }
 
 model Post {
@@ -48,17 +50,37 @@ model Post {
   user   User   @relation(fields: [userId], references: [id])
   userId String
 
+  // RePost Relationship (Self-Referential One-to-Many)
+  // A post can be reposted multiple times (has many rePosts)
+
+  // A repost references its original post through rePostId
+
+  // Optional relationship (post might not be a repost)
+
+  // Named relation "RePosts" to distinguish from other relationships
   rePostId String?
-  rePost   Post?   @relation("RePosts", fields: [rePostId], references: [id])
+  rePost   Post?   @relation("RePosts", fields: [rePostId], references: [id], onDelete: Cascade)
   rePosts  Post[]  @relation("RePosts")
 
+  // Comment Relationship (Self-Referential One-to-Many)
+  //   A post can have multiple comments (has many comments)
+
+  // A comment references its parent post through parentPostId
+
+  // Optional relationship (post might not be a comment)
+
+  // Named relation "PostComments" to distinguish from other relationships
   parentPostId String?
-  parentPost   Post?   @relation("PostComments", fields: [parentPostId], references: [id])
+  parentPost   Post?   @relation("PostComments", fields: [parentPostId], references: [id], onDelete: Cascade)
   comments     Post[]  @relation("PostComments")
 
   likes Like[]
 
   saves SavedPosts[]
+
+  @@index([userId]) // Faster querying of user's posts
+  @@index([rePostId]) // Faster repost tracking
+  @@index([parentPostId]) // Faster comment threads
 }
 
 model Like {
@@ -71,8 +93,8 @@ model Like {
   userId String
   postId String
 
-  user User @relation(fields: [userId], references: [id])
-  post Post @relation(fields: [postId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
 model SavedPosts {
@@ -85,8 +107,8 @@ model SavedPosts {
   userId String
   postId String
 
-  user User @relation(fields: [userId], references: [id])
-  post Post @relation(fields: [postId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
 model Follow {
@@ -99,6 +121,6 @@ model Follow {
   followerId  String
   followingId String
 
-  follower  User @relation("UserFollowers", fields: [followerId], references: [id])
-  following User @relation("UserFollowings", fields: [followingId], references: [id])
+  follower  User @relation("UserFollowers", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("UserFollowings", fields: [followingId], references: [id], onDelete: Cascade)
 }

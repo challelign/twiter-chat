@@ -4,7 +4,19 @@ import { faker } from "@faker-js/faker";
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("Seeding database...");
+  console.log("[Checking if data exist and Cleaning up old data...]");
+
+  // Delete all data in a safe order (to maintain foreign key constraints)
+  await prisma.$transaction([
+    prisma.like.deleteMany(),
+    prisma.savedPosts.deleteMany(),
+    prisma.follow.deleteMany(),
+    prisma.post.deleteMany(),
+    prisma.user.deleteMany(),
+  ]);
+  console.log("[Cleaning up completed...]");
+
+  console.log("[Seeding Fake data to the database...]");
 
   // Create Users
   const users = await prisma.user.createMany({
@@ -29,7 +41,7 @@ async function main() {
   const posts = await prisma.post.createMany({
     data: allUsers.map((user) => ({
       id: faker.string.uuid(),
-      desc: faker.lorem.sentence(),
+      desc: faker.lorem.paragraph(),
       img: faker.image.url(),
       userId: user.id,
     })),
@@ -37,6 +49,24 @@ async function main() {
 
   // Fetch all posts
   const allPosts = await prisma.post.findMany();
+
+  // Create Comments on Posts (Nested Comments)
+  for (let i = 0; i < 15; i++) {
+    const parentPost = faker.helpers.arrayElement(allPosts); // Pick a random post
+    await prisma.post.create({
+      data: {
+        id: faker.string.uuid(),
+        desc: faker.lorem.sentence(),
+        userId: faker.helpers.arrayElement(allUsers).id,
+        parentPostId: parentPost.id, // Set this as a reply to the parent post
+      },
+    });
+  }
+
+  // Fetch all comments
+  const allComments = await prisma.post.findMany({
+    where: { parentPostId: { not: null } },
+  });
 
   // Create Likes
   for (let i = 0; i < 10; i++) {
@@ -77,12 +107,12 @@ async function main() {
     });
   }
 
-  console.log("Seeding finished!");
+  console.log("[Seeding finished!]");
 }
 
 main()
   .catch((e) => {
-    console.error("Error while seeding:", e);
+    console.error("[Error while seeding:]", e);
     process.exit(1);
   })
   .finally(async () => {
