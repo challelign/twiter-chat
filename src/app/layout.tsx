@@ -4,6 +4,9 @@ import { ClerkProvider } from "@clerk/nextjs";
 export const metadata: Metadata = {
   title: "Code Rookie Dev X Clone",
   description: "Next.js social media application project",
+  icons: {
+    icon: "/general/logo.jpg",
+  },
 };
 export default function RootLayout({
   children,

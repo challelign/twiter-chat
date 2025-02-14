@@ -10,6 +10,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@clerk/elements": "^0.22.22",
     "@clerk/nextjs": "^6.11.3",
     "@faker-js/faker": "^9.5.0",
     "@prisma/client": "^6.3.1",

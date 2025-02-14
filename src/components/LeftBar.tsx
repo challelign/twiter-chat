@@ -4,6 +4,7 @@ import React from "react";
 import { menuList } from "../constants/menu";
 import ImageKit from "./ImageKit";
 import Feed from "./Feed";
+import Image from "next/image";
 
 const LeftBar = () => {
   return (
@@ -11,8 +12,18 @@ const LeftBar = () => {
       {/* LOGO MENU BUTTON */}
       <div className="flex flex-col gap-4 text-lg items-center xxl:items-start">
         {/* LOGO */}
-        <Link href="/" className="p-2 rounded-full hover:bg-[#181818] ">
-          <ImageKit src="/icons/logo.svg" alt="logo" w={24} h={24} />
+        <Link
+          href="/"
+          className="p-2 bg-white rounded-full hover:bg-orange-400 aspect-square "
+        >
+          {/* <ImageKit src="/icons/logo.svg" alt="logo" w={24} h={24} /> */}
+          <Image
+            src={"/general/logo.jpg"}
+            alt="Logo"
+            width={70}
+            height={70}
+            className="rounded-full  "
+          />
         </Link>
         {/* MENU LIST */}
         <div className="flex flex-col gap-4  xsm:hidden ">
