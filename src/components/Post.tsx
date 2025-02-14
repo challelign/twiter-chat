@@ -14,44 +14,6 @@ import { comment } from "postcss";
 
 const Post = async ({ type }: { type?: "status" | "comment" }) => {
   // FETCH POST MEDIA
-  const post = await prisma.post.findMany({
-    include: {
-      comments: {
-        include: {
-          user: {
-            select: {
-              id: true,
-              username: true,
-              displayName: true,
-              img: true, // Include user profile image
-            },
-          },
-        },
-      },
-      likes: {
-        include: {
-          user: {
-            select: {
-              id: true,
-              username: true,
-              displayName: true,
-              img: true,
-            },
-          },
-        },
-      },
-      user: {
-        select: {
-          id: true,
-          username: true,
-          displayName: true,
-          img: true,
-        },
-      },
-    },
-  });
-  console.log("[USERS_DATA]", post);
-  const data = JSON.stringify(post);
 
   const getFileDetails = async (
     fileId: string
@@ -77,7 +39,6 @@ const Post = async ({ type }: { type?: "status" | "comment" }) => {
     <div className="p-4 border-y-[1px] border-borderGray">
       {/* Post Type */}
 
-      {data}
       <div className="flex items-center gap-2 text-sm text-textGray mb-2 from-bold">
         <svg
           xmlns="http://www.w3.org/2000/svg"

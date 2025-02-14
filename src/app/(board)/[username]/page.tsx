@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
-import ImageKit from "../../components/ImageKit";
-import Feed from "../../components/Feed";
+import ImageKit from "../../../components/ImageKit";
+import Feed from "../../../components/Feed";
 
 const UserPage = () => {
   return (

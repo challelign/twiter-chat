@@ -1,6 +1,6 @@
 import { prisma } from "@/db/dbConnection";
-import Feed from "../components/Feed";
-import Share from "../components/Share";
+import Feed from "@/components/Feed";
+import Share from "@/components/Share";
 import Link from "next/link";
 
 const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
