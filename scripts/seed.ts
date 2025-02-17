@@ -40,7 +40,7 @@ async function main() {
   // Create 50 Posts (5 per user)
   const posts = await Promise.all(
     users.flatMap((user) =>
-      Array.from({ length: 5 }).map(() =>
+      Array.from({ length: 20 }).map(() =>
         prisma.post.create({
           data: {
             id: faker.string.uuid(),
