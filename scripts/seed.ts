@@ -23,7 +23,7 @@ async function main() {
     data: Array.from({ length: 10 }).map(() => ({
       id: faker.string.uuid(),
       email: faker.internet.email(),
-      username: faker.internet.userName(),
+      username: faker.internet.username(),
       displayName: faker.person.fullName(),
       bio: faker.lorem.sentence(),
       location: faker.location.city(),
