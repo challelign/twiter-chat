@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import QueryProvider from "@/providers/QueryProvider";
 export const metadata: Metadata = {
   title: "Code Rookie Dev X Clone",
   description: "Next.js social media application project",
@@ -8,17 +9,18 @@ export const metadata: Metadata = {
     icon: "/general/logo.jpg",
   },
 };
-export default function RootLayout({
+export default function AppLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-  modal: React.ReactNode;
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body>{children}</body>
-      </html>
+      <QueryProvider>
+        <html lang="en">
+          <body>{children}</body>
+        </html>
+      </QueryProvider>
     </ClerkProvider>
   );
 }

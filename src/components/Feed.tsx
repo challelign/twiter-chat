@@ -2,6 +2,7 @@ import React from "react";
 import Post from "./Post";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/db/dbConnection";
+import InfiniteFeed from "./InfiniteFeed";
 
 const Feed = async ({ userProfileId }: { userProfileId?: string }) => {
   const { userId } = await auth();
@@ -57,9 +58,27 @@ const Feed = async ({ userProfileId }: { userProfileId?: string }) => {
 
   // console.log("[whereCondition2]", whereCondition2);
 
-  const posts = await prisma.post.findMany({ where: whereCondition2 }); //OR
+  const posts = await prisma.post.findMany({
+    where: whereCondition2,
+    include: {
+      user: { select: { displayName: true, username: true, img: true } },
+      rePost: {
+        include: {
+          user: { select: { displayName: true, username: true, img: true } },
+        },
+      },
+      _count: { select: { likes: true, rePosts: true, comments: true } },
+      likes: { where: { userId: userId }, select: { id: true } },
+      rePosts: { where: { userId: userId }, select: { id: true } },
+      saves: { where: { userId: userId }, select: { id: true } },
+    },
+
+    take: 3,
+    skip: 0,
+    orderBy: { createdAt: "desc" },
+  }); //OR
   // const posts = await prisma.post.findMany({ where: whereCondition });
-  console.log("[postsLength]", posts?.length);
+  // console.log("[postsLength]", posts?.length);
 
   console.log("[posts]", posts);
 
@@ -67,9 +86,10 @@ const Feed = async ({ userProfileId }: { userProfileId?: string }) => {
     <div className="">
       {posts.map((post) => (
         <div className="" key={post.id}>
-          <Post />
+          <Post post={post} />
         </div>
       ))}
+      <InfiniteFeed userProfileId={userId} />
     </div>
   );
 };

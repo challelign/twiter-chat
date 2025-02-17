@@ -14,14 +14,20 @@
     "@clerk/nextjs": "^6.11.3",
     "@faker-js/faker": "^9.5.0",
     "@prisma/client": "^6.3.1",
+    "@tanstack/react-query": "^5.66.3",
     "imagekit": "^6.0.0",
     "imagekitio-next": "^1.0.1",
     "next": "15.1.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.4.0",
+    "react-infinite-scroll-component": "^6.1.0",
+    "react-loading-indicators": "^1.0.0",
+    "timeago.js": "^4.0.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@tanstack/eslint-plugin-query": "^5.66.1",
     "@types/node": "^20.17.18",
     "@types/react": "^19",
     "@types/react-dom": "^19",

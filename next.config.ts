@@ -8,6 +8,13 @@ const nextConfig = {
         port: "",
       },
     ],
+
+    domains: [
+      "loremflickr.com",
+      "picsum.photos",
+      "picsum.photos",
+      "avatars.githubusercontent.com",
+    ],
   },
   experimental: {
     serverActions: {
