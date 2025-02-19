@@ -19,3 +19,4 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 ## TO SEED THE DATA FOR ALL SCHEMA JUST RUN THIS CMD
 
 npx prisma db seed
+npx prisma db seed-lma

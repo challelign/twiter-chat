@@ -176,7 +176,9 @@ const Post = ({
           )}
           <PostInteractions
             count={originalPost._count}
-            isLiked={!!originalPost.likes.length}
+            isLiked={!!originalPost?.likes?.length}
+            isRePosted={!!originalPost?.rePosts?.length}
+            isSaved={!!originalPost?.saves?.length}
           />
         </div>
       </div>
