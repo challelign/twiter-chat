@@ -157,6 +157,7 @@ const Post = ({
                 alt={originalPost.user.displayName as string}
                 width={600}
                 height={600}
+                className="h-96 aspect-square"
               />
             )}
             {originalPost.video && (

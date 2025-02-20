@@ -8,20 +8,20 @@ import Image from "next/image";
 
 const LeftBar = () => {
   return (
-    <div className="h-screen sticky top-0 flex flex-col justify-between pt-2 pb-8">
+    <div className="h-screen sticky top-0 flex flex-col justify-between pt-2 pb-4">
       {/* LOGO MENU BUTTON */}
       <div className="flex flex-col gap-4 text-lg items-center xxl:items-start">
         {/* LOGO */}
         <Link
           href="/"
-          className="p-2 bg-white rounded-full hover:bg-orange-400 aspect-square "
+          className="mx-3 bg-white rounded-full hover:bg-orange-400 aspect-square "
         >
           {/* <ImageKit src="/icons/logo.svg" alt="logo" w={24} h={24} /> */}
           <Image
             src={"/general/logo.jpg"}
             alt="Logo"
-            width={70}
-            height={70}
+            width={60}
+            height={60}
             className="rounded-full  "
           />
         </Link>
@@ -69,26 +69,33 @@ const LeftBar = () => {
           href={"/compose/post"}
           className="bg-white text-black rounded-full w-12 h-12 flex items-center justify-center xxl:hidden"
         >
-          <ImageKit src="/icons/post.svg" alt="new post" w={24} h={24} />
+          <ImageKit src="/icons/post.svg" alt="new post" w={15} h={15} />
         </Link>
         <Link
           href="/compose/post"
-          className="hidden xxl:block bg-white text-black rounded-full font-bold py-2 px-20"
+          className="hidden xxl:block bg-white text-black rounded-full font-bold py-1 px-20"
         >
           Post
         </Link>
       </div>
       {/* USER */}
-      <div className="flex items-center justify-between">
+      <div className=" flex items-center justify-between">
         <Link href={"/compose/post"}>
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 relative rounded-full overflow-hidden">
-              <ImageKit
+              {/* <ImageKit
                 src="/general/avatar.png"
                 alt="code rookie"
                 h={100}
                 w={100}
                 tr={true}
+              /> */}
+              <Image
+                src={"/general/logo.jpg"}
+                alt="code rookie"
+                width={50}
+                height={50}
+                className="rounded-full  "
               />
             </div>
             <div className="hidden xxl:flex flex-col">

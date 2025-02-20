@@ -6,6 +6,7 @@ import { prisma } from "@/db/dbConnection";
 import { notFound } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
 import FollowButton from "@/components/FollowButton";
+import Image from "next/image";
 
 const UserPage = async ({ params }: { params: { username: string } }) => {
   const { userId } = await auth();
@@ -44,23 +45,37 @@ const UserPage = async ({ params }: { params: { username: string } }) => {
         <div className="relative w-full">
           {/* cover */}
           <div className="w-full aspect-[3/1] relative">
-            <ImageKit
+            {/* <ImageKit
               src={user.cover || "/general/cover.jpg"}
               alt="back"
               w={600}
               h={200}
               tr={true}
+            /> */}
+
+            <Image
+              className="h-56"
+              src={user.cover || "/general/cover.jpg"}
+              alt="back"
+              width={600}
+              height={100}
             />
           </div>
           {/* avatar */}
           {/* -translate-y-1/2  will make translate to top of y half of the height*/}
           <div className="w-1/5 aspect-square   rounded-full overflow-hidden border-4 border-black bg-gray-300 absolute left-4 -translate-y-1/2">
-            <ImageKit
+            {/* <ImageKit
               src={user.img || "/general/noAvatar.png"}
               alt={user.displayName as string}
               w={100}
               h={100}
               tr={true}
+            /> */}
+            <Image
+              src={user.img || "/general/cover.jpg"}
+              alt="back"
+              width={100}
+              height={100}
             />
           </div>
           {/* <Link href={"/"}>
