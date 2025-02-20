@@ -40,7 +40,6 @@
     "typescript": "^5.7.3"
   },
   "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} scripts/seed.ts",
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} scripts/seed-lama.ts"
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} scripts/seed.ts"
   }
 }

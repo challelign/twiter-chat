@@ -55,7 +55,7 @@ const ImageEditor = ({
           </button>
         </div>
         {/* Image container */}
-        <div className="w-[600px] h-[600px] flex items-center">
+        <div className="w-[500px] h-[500px] flex  items-center">
           <Image
             src={previewUrl}
             width={600}

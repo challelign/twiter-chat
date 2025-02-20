@@ -14,6 +14,7 @@ const nextConfig = {
       "picsum.photos",
       "picsum.photos",
       "avatars.githubusercontent.com",
+      "cdn.jsdelivr.net",
     ],
   },
   experimental: {
