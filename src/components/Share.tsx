@@ -24,11 +24,11 @@ const Share = () => {
     // <form action={shareAction} className="p-4 flex gap-4">
     <form
       action={(formData) => shareAction(formData, settings)}
-      className="p-4 flex gap-4"
+      className="p-2 flex gap-4"
     >
       {/* AVATAR */}
-      <div className="relative w-10 h-10 rounded-full overflow-hidden">
-        <ImageKit src={"/general/avatar.png"} alt="" w={100} h={100} />
+      <div className="relative w-8 h-8 rounded-full overflow-hidden">
+        <ImageKit src={"/general/avatar.png"} alt="" w={50} h={50} />
       </div>
       {/* Others */}
       <div className="flex-1 flex flex-col gap-4  ">
