@@ -26,3 +26,9 @@ seed config in ppackage.json
 or
 "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} scripts/seed-lama.ts"
 }
+
+# TO RUN WEBHOOK SERVER
+
+# DOWNLOAD ngrok from this url https://dashboard.ngrok.com/get-started/setup/windows
+
+ngrok http http://localhost:4000
