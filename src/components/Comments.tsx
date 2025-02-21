@@ -1,7 +1,23 @@
+import { Post as PostType } from "@prisma/client";
 import ImageKit from "./ImageKit";
 import Post from "./Post";
 
-const Comments = () => {
+type CommentsWithDetails = PostType & {
+  user: { displayName: string | null; username: string; img: string | null };
+  _count: { likes: number; rePosts: number; comments: number };
+  likes: { id: number }[];
+  rePosts: { id: number }[];
+  saves: { id: number }[];
+};
+const Comments = ({
+  comments,
+  postId,
+  username,
+}: {
+  comments: CommentsWithDetails[];
+  postId: string;
+  username: string;
+}) => {
   return (
     <div className="">
       <form className="flex items-center justify-between gap-4 p-4 ">
@@ -24,12 +40,12 @@ const Comments = () => {
           Reply
         </button>
       </form>
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
+
+      {comments.map((comment) => (
+        <div className="" key={comment.id}>
+          <Post type="comment" post={comment} />
+        </div>
+      ))}
     </div>
   );
 };

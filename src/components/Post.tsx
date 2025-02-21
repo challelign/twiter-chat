@@ -70,8 +70,8 @@ const Post = ({
         >
           {/* <ImageKit src={"/general/avatar.png"} alt="" w={100} h={100} /> */}
           <Image
-            src={(originalPost.user.img as string) || "/general/avatar.png"}
-            alt={originalPost.user.username}
+            src={(originalPost?.user.img as string) || "/general/avatar.png"}
+            alt={originalPost?.user.username}
             width={100}
             height={100}
           />
@@ -80,10 +80,10 @@ const Post = ({
         <div className="flex flex-1 flex-col gap-2">
           <div className="w-full flex justify-between">
             <Link
-              href={`/${originalPost.user.username}`}
+              href={`/${originalPost?.user.username}`}
               className="flex gap-4"
             >
-              {originalPost.user.img && (
+              {originalPost?.user.img && (
                 <div
                   className={`${
                     type !== "status" && "hidden"
@@ -98,8 +98,8 @@ const Post = ({
                   /> */}
 
                   <Image
-                    src={originalPost.user.img}
-                    alt={originalPost.user.username}
+                    src={originalPost?.user.img}
+                    alt={originalPost?.user.username}
                     width={100}
                     height={100}
                   />
@@ -112,16 +112,16 @@ const Post = ({
                 }`}
               >
                 <h1 className="text-md font-bold">
-                  {originalPost.user.displayName}
+                  {originalPost?.user.displayName}
                 </h1>
                 <span
                   className={`text-textGray ${type === "status" && "text-sm"}`}
                 >
-                  @{originalPost.user.username}
+                  @{originalPost?.user.username}
                 </span>
                 {type !== "status" && (
                   <span className="text-textGray">
-                    {format(originalPost.createdAt)}
+                    {format(originalPost?.createdAt)}
                   </span>
                 )}
               </div>
@@ -131,19 +131,21 @@ const Post = ({
 
           {/* Media and text */}
           <div className="">
-            <Link href={`/codeRookie/status/123`}>
+            <Link
+              href={`${originalPost?.user.username}/status/${originalPost?.id}`}
+            >
               <p
                 className={`${
                   type === "status" && "text-lg"
                 }  line-clamp-5 text-justify text-wrap flex `}
               >
-                {originalPost.desc}
+                {originalPost?.desc}
               </p>
             </Link>
           </div>
 
           <div className="relative items-center justify-center rounded-xl overflow-hidden">
-            {originalPost.img && (
+            {originalPost?.img && (
               // <ImageKit
               //   src={originalPost.img}
               //   alt={originalPost.user.displayName as string}
@@ -153,18 +155,18 @@ const Post = ({
               //   className={originalPost.isSensitive ? "blur-3xl" : ""}
               // />
               <Image
-                src={originalPost.img}
-                alt={originalPost.user.displayName as string}
+                src={originalPost?.img}
+                alt={originalPost?.user.displayName as string}
                 width={600}
                 height={600}
                 className="h-96 aspect-square"
               />
             )}
-            {originalPost.video && (
+            {originalPost?.video && (
               <div className="rounded-lg overflow-hidden">
                 <VideoKit
-                  src={originalPost.video}
-                  className={originalPost.isSensitive ? "blur-3xl" : ""}
+                  src={originalPost?.video}
+                  className={originalPost?.isSensitive ? "blur-3xl" : ""}
                 />
               </div>
             )}
@@ -176,7 +178,7 @@ const Post = ({
             <span className="text-textGray">8:41 PM · Feb 5, 2025</span>
           )}
           <PostInteractions
-            count={originalPost._count}
+            count={originalPost?._count}
             isLiked={!!originalPost?.likes?.length}
             isRePosted={!!originalPost?.rePosts?.length}
             isSaved={!!originalPost?.saves?.length}
