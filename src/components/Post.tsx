@@ -178,7 +178,8 @@ const Post = ({
             <span className="text-textGray">8:41 PM · Feb 5, 2025</span>
           )}
           <PostInteractions
-            count={originalPost?._count}
+            postId={originalPost.id}
+            count={originalPost._count}
             isLiked={!!originalPost?.likes?.length}
             isRePosted={!!originalPost?.rePosts?.length}
             isSaved={!!originalPost?.saves?.length}

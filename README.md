@@ -32,3 +32,4 @@ or
 # DOWNLOAD ngrok from this url https://dashboard.ngrok.com/get-started/setup/windows
 
 ngrok http http://localhost:4000
+https://9393-2605-6440-3008-c000-ee6a-fb7b-49f3-426f.ngrok-free.app/api/webhooks/clerk
