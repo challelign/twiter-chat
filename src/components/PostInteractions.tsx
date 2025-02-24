@@ -1,6 +1,6 @@
 "use client";
 
-import { likePost } from "@/actions/posts";
+import { likePost, rePost, savePost } from "@/actions/posts";
 import { useRouter } from "next/navigation";
 import { useOptimistic, useRef, useState } from "react";
 
@@ -40,6 +40,38 @@ const PostInteractions = ({
     });
     router.refresh();
   };
+
+  const rePostAction = async () => {
+    addOptimisticCount("rePost");
+    // await likePost(postId);
+    const response = await rePost(postId);
+
+    console.log(response);
+    setState((prev) => {
+      return {
+        ...prev,
+        reRost: prev.isRePosted ? prev.rePosts - 1 : prev.rePosts + 1,
+        isRePosted: !prev.isRePosted,
+      };
+    });
+    router.refresh();
+  };
+
+  const saveAction = async () => {
+    addOptimisticCount("save");
+    // await likePost(postId);
+    const response = await savePost(postId);
+
+    console.log(response);
+    setState((prev) => {
+      return {
+        ...prev,
+        isSaved: !prev.isSaved,
+      };
+    });
+    router.refresh();
+  };
+
   const [optimisticCount, addOptimisticCount] = useOptimistic(
     state,
     (prev, type: "like" | "rePost" | "save") => {
@@ -87,28 +119,30 @@ const PostInteractions = ({
           </span>
         </div>
         {/* REPOST */}
-        <div className="flex items-center gap-2 cursor-pointer group">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-          >
-            <path
-              className={`${
-                isRePosted ? "fill-iconGreen" : "fill-textGray"
-              } group-hover:fill-iconGreen`}
-              d="M4.75 3.79l4.603 4.3-1.706 1.82L6 8.38v7.37c0 .97.784 1.75 1.75 1.75H13V20H7.75c-2.347 0-4.25-1.9-4.25-4.25V8.38L1.853 9.91.147 8.09l4.603-4.3zm11.5 2.71H11V4h5.25c2.347 0 4.25 1.9 4.25 4.25v7.37l1.647-1.53 1.706 1.82-4.603 4.3-4.603-4.3 1.706-1.82L18 15.62V8.25c0-.97-.784-1.75-1.75-1.75z"
-            />
-          </svg>
-          <span
-            className={` ${
-              isRePosted ? "text-iconGreen" : "text-textGray"
-            }group-hover:text-iconGreen text-sm`}
-          >
-            {count?.rePosts}
-          </span>
-        </div>
+        <form action={rePostAction}>
+          <button className="flex items-center gap-2 cursor-pointer group">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+            >
+              <path
+                className={`${
+                  isRePosted ? "fill-iconGreen" : "fill-textGray"
+                } group-hover:fill-iconGreen`}
+                d="M4.75 3.79l4.603 4.3-1.706 1.82L6 8.38v7.37c0 .97.784 1.75 1.75 1.75H13V20H7.75c-2.347 0-4.25-1.9-4.25-4.25V8.38L1.853 9.91.147 8.09l4.603-4.3zm11.5 2.71H11V4h5.25c2.347 0 4.25 1.9 4.25 4.25v7.37l1.647-1.53 1.706 1.82-4.603 4.3-4.603-4.3 1.706-1.82L18 15.62V8.25c0-.97-.784-1.75-1.75-1.75z"
+              />
+            </svg>
+            <span
+              className={` ${
+                isRePosted ? "text-iconGreen" : "text-textGray"
+              }group-hover:text-iconGreen text-sm`}
+            >
+              {count?.rePosts}
+            </span>
+          </button>
+        </form>
         {/* LIKE */}
         <form action={likedAction}>
           <button className="flex items-center gap-2 cursor-pointer group">
@@ -136,40 +170,42 @@ const PostInteractions = ({
           </button>
         </form>
       </div>
-      <div className="flex items-center gap-2">
-        {/* SAVE POST */}
+      <form action={saveAction} className="flex items-center gap-2">
+        <button className="flex items-center gap-2">
+          {/* SAVE POST */}
 
-        <div className="cursor-pointer group">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-          >
-            <path
-              className={`${
-                isSaved ? "fill-iconBlue" : "fill-textGray"
-              }  group-hover:fill-iconBlue`}
-              d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"
-            />
-          </svg>
-        </div>
-        {/* SHARE POST */}
+          <div className="cursor-pointer group">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+            >
+              <path
+                className={`${
+                  isSaved ? "fill-iconBlue" : "fill-textGray"
+                }  group-hover:fill-iconBlue`}
+                d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"
+              />
+            </svg>
+          </div>
+          {/* SHARE POST */}
 
-        <div className="cursor-pointer group">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-          >
-            <path
-              className="fill-textGray group-hover:fill-iconBlue"
-              d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"
-            />
-          </svg>
-        </div>
-      </div>
+          <div className="cursor-pointer group">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+            >
+              <path
+                className="fill-textGray group-hover:fill-iconBlue"
+                d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"
+              />
+            </svg>
+          </div>
+        </button>
+      </form>
     </div>
   );
 };
