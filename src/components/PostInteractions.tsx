@@ -50,7 +50,7 @@ const PostInteractions = ({
     setState((prev) => {
       return {
         ...prev,
-        reRost: prev.isRePosted ? prev.rePosts - 1 : prev.rePosts + 1,
+        rePosts: prev.isRePosted ? prev.rePosts - 1 : prev.rePosts + 1,
         isRePosted: !prev.isRePosted,
       };
     });

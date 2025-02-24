@@ -1,7 +1,9 @@
 "use server";
-
+import { z } from "zod";
 import { prisma } from "@/db/dbConnection";
 import { auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
+import { error } from "console";
 
 const getUserId = async () => {
   const { userId } = await auth();
@@ -166,18 +168,19 @@ const toggleRePost = async (userId: string, postId: string) => {
     where: { userId, rePostId: postId },
   });
 
+  console.log(postId);
   if (existingRePost) {
     await prisma.post.delete({ where: { id: existingRePost.id } });
     return {
       isRePosted: false,
-      rePostCount: await getUpdatedCount(postId, prisma.post, true),
+      rePosts: await getUpdatedCount(postId, prisma.post, true),
       message: "Post Unreposted",
     };
   } else {
     await prisma.post.create({ data: { userId, rePostId: postId } });
     return {
       isRePosted: true,
-      rePostCount: await getUpdatedCount(postId, prisma.post, true),
+      rePosts: await getUpdatedCount(postId, prisma.post, true),
       message: "Post Reposted",
     };
   }
@@ -224,4 +227,76 @@ export const savePost = async (postId: string) => {
   if (!userId) return;
 
   return await toggleSavePost(userId, postId);
+};
+
+// Define the return type for the addComment function
+type CommentActionResult = {
+  success: boolean;
+  error: boolean;
+  message: string;
+};
+
+export const addComment = async (
+  prevState: { success: boolean; error: boolean; message: string },
+  formData: FormData
+): Promise<CommentActionResult> => {
+  const { userId } = await auth();
+
+  if (!userId) {
+    return { success: false, error: true, message: "User not authenticated." };
+  }
+  const postId = formData.get("postId");
+  const username = formData.get("username");
+  const desc = formData.get("desc");
+
+  const Comment = z.object({
+    postId: z.string({
+      message: "Post Id is required",
+    }),
+    desc: z
+      .string()
+      .min(1, "Description is required.")
+      .max(200, "Description must be 200 characters or less."),
+  });
+
+  const validatedFields = Comment.safeParse({
+    parentPostId: postId,
+    desc,
+  });
+
+  console.log(postId);
+  if (!validatedFields.success) {
+    console.log(validatedFields.error.flatten().fieldErrors);
+    //  return { success: false, error: true, message: validatedFields.error.errors[0].message };
+    if (!validatedFields.success) {
+      console.log(validatedFields.error.flatten().fieldErrors);
+      return {
+        success: false,
+        error: true,
+        message: validatedFields.error.errors[0].message,
+      };
+    }
+  }
+
+  try {
+    await prisma.post.create({
+      data: {
+        ...validatedFields.data,
+        userId,
+      },
+    });
+    revalidatePath(`/${username}/status/${postId}`);
+    return {
+      success: true,
+      error: false,
+      message: "Comment added successfully.",
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      success: false,
+      error: true,
+      message: "Something went wrong, while adding the comment.",
+    };
+  }
 };

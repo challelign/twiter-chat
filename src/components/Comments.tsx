@@ -1,6 +1,11 @@
+"use client";
 import { Post as PostType } from "@prisma/client";
 import ImageKit from "./ImageKit";
 import Post from "./Post";
+import { useUser } from "@clerk/nextjs";
+import Image from "next/image";
+import { useActionState } from "react";
+import { addComment } from "@/actions/posts";
 
 type CommentsWithDetails = PostType & {
   user: { displayName: string | null; username: string; img: string | null };
@@ -18,32 +23,65 @@ const Comments = ({
   postId: string;
   username: string;
 }) => {
+  const { isLoaded, isSignedIn, user } = useUser();
+  const [state, formAction, isPending] = useActionState(addComment, {
+    success: false,
+    error: false,
+    message: "",
+  });
+
   return (
     <div className="">
-      <form className="flex items-center justify-between gap-4 p-4 ">
-        <div className="relative w-10 h-10 rounded-full overflow-hidden">
-          <ImageKit
+      {user && (
+        <form
+          action={formAction}
+          className="flex items-center justify-between gap-4 p-4 "
+        >
+          <div className="relative w-10 h-10 rounded-full overflow-hidden">
+            {/* <ImageKit
             src="general/avatar.png"
             alt="Code Rookie"
             w={100}
             h={100}
             tr={true}
+          /> */}
+            <Image
+              src="/general/avatar.png"
+              alt="Code Rookie"
+              width={100}
+              height={100}
+            />{" "}
+          </div>
+          <input type="text" name="postId" hidden readOnly value={postId} />
+          <input
+            type="string"
+            name="username"
+            hidden
+            readOnly
+            value={username}
           />
-        </div>
-        <input
-          type="text"
-          className="flex-1 bg-transparent outline-none p-2 text-xl border-1 border-transparent focus:border-blue-400 focus:ring-1 focus:ring-offset-blue-400 rounded-sm"
-          // className="flex-1 bg-transparent outline-none p-2 focus-visible:ring-offset-blue-400   text-xl border-l-2 border-blue-400"
-          placeholder="Post your reply..."
-        />
-        <button className="py-2 px-4 font-bold bg-white text-black rounded-full">
-          Reply
-        </button>
-      </form>
-
+          <input
+            type="text"
+            name="desc"
+            className="flex-1 bg-transparent outline-none p-2 text-xl"
+            placeholder="Post your reply"
+          />
+          <button
+            disabled={isPending}
+            className="py-2 px-4 font-bold bg-white text-black rounded-full disabled:cursor-not-allowed disabled:bg-slate-200"
+          >
+            {isPending ? "Replying" : "Reply"}
+          </button>
+        </form>
+      )}
+      {state.error && (
+        <span className="text-red-300 p-4">
+          {state.message ? state.message : " Something went wrong! "}
+        </span>
+      )}
       {comments.map((comment) => (
-        <div className="" key={comment.id}>
-          <Post type="comment" post={comment} />
+        <div key={comment.id}>
+          <Post post={comment} type="comment" />
         </div>
       ))}
     </div>

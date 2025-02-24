@@ -3,6 +3,7 @@ import React from "react";
 import PostInfo from "./PostInfo";
 import PostInteractions from "./PostInteractions";
 import ImageKit from "./ImageKit";
+import moment from "moment";
 
 import { imagekit } from "../utils/utils";
 import { SingleFileResponse } from "../types";
@@ -175,7 +176,9 @@ const Post = ({
             )} */}
           </div>
           {type === "status" && (
-            <span className="text-textGray">8:41 PM · Feb 5, 2025</span>
+            <span className="text-textGray">
+              {moment(originalPost?.createdAt).format("h:mm A · MMM D, YYYY")}
+            </span>
           )}
           <PostInteractions
             postId={originalPost.id}
