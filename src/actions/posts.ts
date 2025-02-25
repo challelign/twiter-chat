@@ -4,6 +4,14 @@ import { prisma } from "@/db/dbConnection";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { error } from "console";
+import { UploadResponse } from "imagekit/dist/libs/interfaces";
+import { imagekit } from "@/utils/utils";
+import { fi } from "@faker-js/faker";
+type ActionResult = {
+  success: boolean;
+  error: boolean;
+  message: string;
+};
 
 const getUserId = async () => {
   const { userId } = await auth();
@@ -230,16 +238,11 @@ export const savePost = async (postId: string) => {
 };
 
 // Define the return type for the addComment function
-type CommentActionResult = {
-  success: boolean;
-  error: boolean;
-  message: string;
-};
 
 export const addComment = async (
   prevState: { success: boolean; error: boolean; message: string },
   formData: FormData
-): Promise<CommentActionResult> => {
+): Promise<ActionResult> => {
   const { userId } = await auth();
 
   if (!userId) {
@@ -250,7 +253,7 @@ export const addComment = async (
   const desc = formData.get("desc");
 
   const Comment = z.object({
-    postId: z.string({
+    parentPostId: z.string({
       message: "Post Id is required",
     }),
     desc: z
@@ -297,6 +300,136 @@ export const addComment = async (
       success: false,
       error: true,
       message: "Something went wrong, while adding the comment.",
+    };
+  }
+};
+
+export const addPost = async (
+  prevState: { success: boolean; error: boolean; message: string },
+  formData: FormData
+): Promise<ActionResult> => {
+  const { userId } = await auth();
+
+  if (!userId) {
+    return { success: false, error: true, message: "User not authenticated." };
+  }
+  const postId = formData.get("postId");
+  const file = formData.get("file") as File;
+  const desc = formData.get("desc") as string | null;
+  const isSensitive = formData.get("isSensitive");
+  const imgType = formData.get("imgType");
+
+  const NewPost = z.object({
+    desc: z
+      .string()
+      .max(1000, "Description must be 250 characters or less.")
+      .nullable()
+      .optional(),
+  });
+
+  const validatedFields = NewPost.safeParse({
+    desc,
+    imgType,
+    // isSensitive,
+  });
+
+  console.log(desc, imgType, file);
+
+  if (
+    (!file || file.size === 0 || file.name === "undefined") &&
+    (!desc || desc.trim() === "")
+  ) {
+    return {
+      success: false,
+      error: true,
+      message: "Write what you want or upload some video or image !",
+    };
+  }
+  console.log(postId);
+  if (!validatedFields.success) {
+    console.log(validatedFields.error.flatten().fieldErrors);
+    if (!validatedFields.success) {
+      console.log(validatedFields.error.flatten().fieldErrors);
+      return {
+        success: false,
+        error: true,
+        message: validatedFields.error.errors[0].message,
+      };
+    }
+  }
+
+  const uploadFile = async (file: File): Promise<UploadResponse> => {
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
+    const transformation = `w-600,${
+      imgType === "square" ? "ar-1-1" : imgType === "wide" ? "ar-16-9" : ""
+    }`;
+
+    return new Promise((resolve, reject) => {
+      imagekit.upload(
+        {
+          file: buffer,
+          fileName: file.name,
+          folder: "/posts",
+          ...(file.type.includes("image") && {
+            transformation: {
+              pre: transformation,
+            },
+          }),
+        },
+        function (error, result) {
+          if (error) reject(error);
+          else resolve(result as UploadResponse);
+        }
+      );
+    });
+  };
+
+  let img = "";
+  let imgHeight = 0;
+  let video = "";
+
+  if (file.size) {
+    const result: UploadResponse = await uploadFile(file);
+
+    if (result.fileType === "image") {
+      img = result.filePath;
+      imgHeight = result.height;
+    } else {
+      video = result.filePath;
+    }
+  }
+  console.log({
+    ...validatedFields.data,
+    userId,
+    img,
+    imgHeight,
+    video,
+  });
+
+  try {
+    await prisma.post.create({
+      data: {
+        ...validatedFields.data,
+        userId,
+        img,
+        imgHeight,
+        video,
+      },
+    });
+    revalidatePath(`/`);
+    return {
+      success: true,
+      error: false,
+      message: "Post created successfully.",
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      success: false,
+      error: true,
+      message: "Something went wrong, while Creating the post.",
     };
   }
 };

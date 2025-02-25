@@ -52,7 +52,7 @@ const Comments = ({
               height={100}
             />{" "}
           </div>
-          <input type="text" name="postId" hidden readOnly value={postId} />
+          <input type="string" name="postId" hidden readOnly value={postId} />
           <input
             type="string"
             name="username"

@@ -50,6 +50,7 @@ const StatusPage = async ({
       </div>
       <Post type="status" post={post as any} />
       <Comments
+        key={post.id}
         comments={post.comments as any}
         postId={post.id}
         username={post.user.username}
