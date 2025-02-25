@@ -215,6 +215,37 @@ const toggleSavePost = async (userId: string, postId: string) => {
     };
   }
 };
+const toggleFollow = async (targetUserId: string, userId: string) => {
+  console.log(targetUserId);
+
+  const existingFollow = await prisma.follow.findFirst({
+    where: { followerId: userId, followingId: targetUserId },
+  });
+
+  const userToFollowOrUnFollow = await prisma.user.findFirst({
+    where: { id: targetUserId },
+  });
+
+  if (existingFollow) {
+    await prisma.follow.delete({ where: { id: existingFollow.id } });
+    revalidatePath(`/${userToFollowOrUnFollow?.username}`);
+
+    return {
+      isFollow: false,
+      message: `You  un-followed ${userToFollowOrUnFollow?.username} user`,
+    };
+  } else {
+    await prisma.follow.create({
+      data: { followerId: userId, followingId: targetUserId },
+    });
+    revalidatePath(`/${userToFollowOrUnFollow?.username}`);
+
+    return {
+      isFollow: true,
+      message: `You followed ${userToFollowOrUnFollow?.username} user`,
+    };
+  }
+};
 
 export const likePost = async (postId: string) => {
   const userId = await getUserId();
@@ -432,4 +463,13 @@ export const addPost = async (
       message: "Something went wrong, while Creating the post.",
     };
   }
+};
+
+export const followUser = async (targetUserId: string) => {
+  const userId = await getUserId();
+  if (!userId) {
+    return { success: false, error: true, message: "User not authenticated." };
+  }
+
+  return await toggleFollow(targetUserId, userId);
 };
