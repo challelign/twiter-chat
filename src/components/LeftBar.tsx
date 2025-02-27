@@ -18,7 +18,7 @@ const LeftBar = async () => {
   if (!user) {
     return (
       <>
-        <div className="flex items-center justify-center h-full text-center">
+        <div className="flex items-center justify-center h-full text-ce nter">
           Loading ...
         </div>
       </>
@@ -48,7 +48,7 @@ const LeftBar = async () => {
           {menuList.map((item, i) => (
             <div key={item.id || i}>
               {i === 2 && user && (
-                <div className="custom_item">
+                <div>
                   <Notification />
                 </div>
               )}
@@ -72,14 +72,13 @@ const LeftBar = async () => {
           {menuList.map((item, i) => (
             <div key={item.id || i}>
               {i === 2 && user && (
-                <div className="custom_item">
+                <div>
                   <Notification />
                 </div>
               )}
               <Link
                 href={item.link}
                 className="p-2 rounded-full hover:bg-[#181818] flex items-center gap-4  xsm:gap-1"
-                key={item.id}
               >
                 <ImageKit
                   src={`/icons/${item.icon}`}

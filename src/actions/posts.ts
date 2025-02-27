@@ -156,6 +156,7 @@ const toggleLike = async (userId: string, postId: string) => {
 
   if (existingLike) {
     await prisma.like.delete({ where: { id: existingLike.id } });
+    revalidatePath(`/`);
     return {
       isLiked: false,
       likes: await getUpdatedCount(postId, prisma.like),
@@ -163,6 +164,7 @@ const toggleLike = async (userId: string, postId: string) => {
     };
   } else {
     await prisma.like.create({ data: { userId, postId } });
+    revalidatePath(`/`);
     return {
       isLiked: true,
       likes: await getUpdatedCount(postId, prisma.like),
@@ -250,7 +252,6 @@ const toggleFollow = async (targetUserId: string, userId: string) => {
 export const likePost = async (postId: string) => {
   const userId = await getUserId();
   if (!userId) return;
-  revalidatePath(`/`);
 
   return await toggleLike(userId, postId);
 };

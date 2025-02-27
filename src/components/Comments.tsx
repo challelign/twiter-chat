@@ -4,8 +4,9 @@ import ImageKit from "./ImageKit";
 import Post from "./Post";
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { addComment } from "@/actions/posts";
+import { socket } from "@/socket";
 
 type CommentsWithDetails = PostType & {
   user: { displayName: string | null; username: string; img: string | null };
@@ -30,14 +31,28 @@ const Comments = ({
     message: "",
   });
 
+  useEffect(() => {
+    if (state.success) {
+      console.log("SEND_NOTIFICATION_POST_INTERACTION_COMMENT");
+      socket.emit("SEND_NOTIFICATION", {
+        receiverUsername: username,
+        data: {
+          senderUsername: user?.username,
+          type: "comment",
+          link: `/${username}/status/${postId}`,
+        },
+      });
+    }
+  }, [user, state.success, username]);
+
   return (
     <div className="">
       {user && (
         <form
           action={formAction}
-          className="flex items-center justify-between gap-4 p-4 "
+          className="flex items-center justify-between gap-4 p-4  "
         >
-          <div className="relative w-10 h-10 rounded-full overflow-hidden">
+          <div className="relative w-10 h-10 rounded-full overflow-hidden -z-10">
             {/* <ImageKit
             src="general/avatar.png"
             alt="Code Rookie"
@@ -81,7 +96,7 @@ const Comments = ({
       )}
       {comments.map((comment) => (
         <div key={comment.id}>
-          <Post post={comment} type="comment" />
+          <Post post={comment} type="comment" key={comment.id} />
         </div>
       ))}
     </div>

@@ -39,7 +39,7 @@ const UserPage = async ({
   return (
     <div className="">
       {/* profile title */}
-      <div className="flex items-center gap-8 sticky top-0 backdrop-blur-md p-4 z-10 bg-[#00000084]">
+      <div className="flex items-center gap-8 sticky top-0 backdrop-blur-md p-4 z-10 bg-[#00000084] ">
         <Link href={"/"}>
           <ImageKit src="icons/back.svg" alt="back" w={24} h={24} />
         </Link>
@@ -48,9 +48,9 @@ const UserPage = async ({
       {/* info */}
       <div className="">
         {/* cover and avatar container */}
-        <div className="relative w-full">
+        <div className="relative w-full -z-10">
           {/* cover */}
-          <div className="w-full aspect-[3/1] relative">
+          <div className="w-full aspect-[3/1] relative ">
             {/* <ImageKit
               src={user.cover || "/general/cover.jpg"}
               alt="back"
