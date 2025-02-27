@@ -45,7 +45,7 @@ export const getAllPosts = async () => {
     },
   });
 
-  console.log("[POSTS]", post);
+  // console.log("[POSTS]", post);
   return post;
 };
 

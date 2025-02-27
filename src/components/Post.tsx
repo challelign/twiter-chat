@@ -68,7 +68,7 @@ const Post = ({
         <div
           className={`${
             type === "status" && "hidden"
-          } relative w-10 h-10 rounded-full overflow-hidden`}
+          } relative w-10 h-10 rounded-full overflow-hidden -z-10`}
         >
           {/* <ImageKit src={"/general/avatar.png"} alt="" w={100} h={100} /> */}
           <Image
@@ -146,7 +146,7 @@ const Post = ({
             </Link>
           </div>
 
-          <div className="relative items-center justify-center rounded-xl overflow-hidden">
+          <div className="relative items-center justify-center rounded-xl overflow-hidden -z-10">
             <Link
               href={`${originalPost?.user.username}/status/${originalPost?.id}`}
             >
@@ -206,6 +206,7 @@ const Post = ({
           )}
           <PostInteractions
             key={originalPost.id}
+            username={originalPost.user.username}
             postId={originalPost.id}
             count={originalPost._count}
             isLiked={!!originalPost?.likes?.length}

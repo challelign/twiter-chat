@@ -29,10 +29,10 @@ const InfiniteFeed = ({ userProfileId }: { userProfileId: string }) => {
     getNextPageParam: (lastPage, pages) =>
       lastPage.hasMore ? pages.length + 2 : undefined,
   });
-  console.log("[POSTS_INFINITY_FEED]", posts);
+  // console.log("[POSTS_INFINITY_FEED]", posts);
 
   const allPosts = posts?.pages.flatMap((page) => page.posts) || [];
-  console.log("[ALL_POSTS_INFINITY_FEED]", allPosts);
+  // console.log("[ALL_POSTS_INFINITY_FEED]", allPosts);
 
   if (error) {
     return (

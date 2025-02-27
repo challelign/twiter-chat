@@ -12,12 +12,12 @@ const Feed = async ({ userProfileId }: { userProfileId?: string }) => {
     where: { followerId: userId },
     select: { followingId: true },
   });
-  console.log("[followings]", followingsSelect);
+  // console.log("[followings]", followingsSelect);
 
   // TO SELECT IDS ONLY
 
   const idsSelect = followingsSelect.map((f) => f.followingId);
-  console.log("[idsSelect]", idsSelect);
+  // console.log("[idsSelect]", idsSelect);
   // alternative one
 
   const whereCondition = userProfileId
@@ -84,13 +84,13 @@ const Feed = async ({ userProfileId }: { userProfileId?: string }) => {
   // const posts = await prisma.post.findMany({ where: whereCondition });
   // console.log("[postsLength]", posts?.length);
 
-  console.log("[posts]", posts);
+  // console.log("[posts]", posts);
 
   return (
     <div className="">
       {posts.map((post) => (
         <div className="" key={post.id}>
-          <Post post={post} />
+          <Post post={post as any} />
         </div>
       ))}
       <InfiniteFeed userProfileId={userId} />

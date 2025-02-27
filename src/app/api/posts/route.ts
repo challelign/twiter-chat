@@ -98,6 +98,6 @@ export async function GET(request: NextRequest) {
   const hasMore = Number(page) * LIMIT < totalPosts;
 
   // await new Promise((resolve) => setTimeout(resolve, 6000)); // To load after 6 seconds
-  console.log("[posts]", { totalCount: totalPosts, hasMore, posts });
+  // console.log("[posts]", { totalCount: totalPosts, hasMore, posts });
   return Response.json({ totalCount: totalPosts, hasMore, posts });
 }

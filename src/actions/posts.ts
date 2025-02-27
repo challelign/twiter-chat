@@ -250,6 +250,7 @@ const toggleFollow = async (targetUserId: string, userId: string) => {
 export const likePost = async (postId: string) => {
   const userId = await getUserId();
   if (!userId) return;
+  revalidatePath(`/`);
 
   return await toggleLike(userId, postId);
 };
