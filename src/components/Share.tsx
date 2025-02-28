@@ -1,7 +1,6 @@
 "use client";
-import React, { useActionState, useEffect, useRef, useState } from "react";
+import React, { useActionState, useRef, useState } from "react";
 import ImageKit from "./ImageKit";
-import { shareAction } from "../actions/shareAction";
 import Image from "next/image";
 import ImageEditor from "./ImageEditor";
 import { addPost } from "@/actions/posts";

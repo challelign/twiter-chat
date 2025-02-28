@@ -1,6 +1,5 @@
 "use client";
 import { Post as PostType } from "@prisma/client";
-import ImageKit from "./ImageKit";
 import Post from "./Post";
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";

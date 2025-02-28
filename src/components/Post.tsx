@@ -1,16 +1,11 @@
 import Image from "next/image";
-import React from "react";
 import PostInfo from "./PostInfo";
 import PostInteractions from "./PostInteractions";
 import ImageKit from "./ImageKit";
 import moment from "moment";
 
-import { imagekit } from "../utils/utils";
-import { SingleFileResponse } from "../types";
-import SensitiveContent from "./SensitiveContent";
 import VideoKit from "./VideoKit";
 import Link from "next/link";
-import { prisma } from "@/db/dbConnection";
 import { Post as PostType } from "@prisma/client";
 import { format } from "timeago.js";
 type UserSummary = {

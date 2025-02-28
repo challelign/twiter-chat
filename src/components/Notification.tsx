@@ -1,9 +1,7 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { socket } from "@/socket";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import ImageKit from "./ImageKit";
 
 type NotificationType = {

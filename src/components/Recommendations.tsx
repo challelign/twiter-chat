@@ -1,6 +1,4 @@
 import Link from "next/link";
-import React from "react";
-import ImageKit from "./ImageKit";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/db/dbConnection";
 import Image from "next/image";

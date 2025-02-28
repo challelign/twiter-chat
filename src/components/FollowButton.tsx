@@ -1,7 +1,7 @@
 "use client";
 
 import { followUser } from "@/actions/posts";
-import { useActionState, useOptimistic, useState } from "react";
+import { useOptimistic, useState } from "react";
 
 const FollowButton = ({
   userId,

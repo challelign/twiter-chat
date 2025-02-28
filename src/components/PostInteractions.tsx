@@ -4,7 +4,7 @@ import { likePost, rePost, savePost } from "@/actions/posts";
 import { socket } from "@/socket";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { useOptimistic, useRef, useState } from "react";
+import { useOptimistic, useState } from "react";
 
 const PostInteractions = ({
   username,

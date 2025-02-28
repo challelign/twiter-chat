@@ -1,13 +1,10 @@
 import Link from "next/link";
-import React from "react";
 import { menuList } from "../constants/menu";
 import ImageKit from "./ImageKit";
-import Feed from "./Feed";
 import Image from "next/image";
 import Socket from "./Socket";
 import Notification from "./Notification";
 import { currentUser } from "@clerk/nextjs/server";
-import { useUser } from "@clerk/nextjs";
 
 const LeftBar = async () => {
   const user = await currentUser();

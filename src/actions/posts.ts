@@ -3,10 +3,8 @@ import { z } from "zod";
 import { prisma } from "@/db/dbConnection";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
-import { error } from "console";
 import { UploadResponse } from "imagekit/dist/libs/interfaces";
 import { imagekit } from "@/utils/utils";
-import { fi } from "@faker-js/faker";
 type ActionResult = {
   success: boolean;
   error: boolean;

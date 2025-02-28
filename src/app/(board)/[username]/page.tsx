@@ -1,5 +1,4 @@
 import Link from "next/link";
-import React, { use } from "react";
 import ImageKit from "../../../components/ImageKit";
 import Feed from "../../../components/Feed";
 import { prisma } from "@/db/dbConnection";

@@ -1,8 +1,5 @@
 "use client";
-import { LuLoader } from "react-icons/lu";
-
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import React from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Post from "./Post";
 import { ThreeDot } from "react-loading-indicators";
