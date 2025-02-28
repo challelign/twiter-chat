@@ -19,17 +19,31 @@ type UserSummary = {
   img: string | null;
 };
 
+// type PostType = {
+//   id: string;
+//   createdAt: Date;
+//   updatedAt: Date;
+//   desc: string | null;
+//   img: string | null;
+//   imgHeight: number | null;
+//   video: string | null;
+//   isSensitive: boolean;
+//   userId: string;
+//   rePostId: string | null;
+//   parentPostId: string | null;
+// };
+
 type Engagement = {
   _count: { likes: number; rePosts: number; comments: number };
-  likes: { id: number }[];
-  rePosts: { id: number }[];
-  saves: { id: number }[];
+  likes: { id: string }[]; // Changed from 'number' to 'string'
+  rePosts: { id: string }[]; // Changed from 'number' to 'string'
+  saves: { id: string }[]; // Changed from 'number' to 'string'
 };
 
 type PostWithDetails = PostType &
   Engagement & {
     user: UserSummary;
-    rePost?: (PostType & Engagement & { user: UserSummary }) | null;
+    rePost?: PostWithDetails | null; // Ensure it can be null
   };
 const Post = ({
   type,
@@ -40,7 +54,7 @@ const Post = ({
 }) => {
   // FETCH POST MEDIA
 
-  const originalPost = post?.rePost || post;
+  const originalPost = post.rePost || post;
   return (
     <div className="p-4 border-y-[1px] border-borderGray ">
       {/* Post Type */}

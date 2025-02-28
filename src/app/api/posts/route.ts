@@ -72,23 +72,20 @@ export async function GET(request: NextRequest) {
   // console.log("[whereCondition2]", whereCondition2);
 
   //   const posts = await prisma.post.findMany({ where: whereCondition2 }); //OR
+  const commonQuery = {
+    user: { select: { displayName: true, username: true, img: true } },
+    _count: { select: { likes: true, rePosts: true, comments: true } },
+    likes: { where: { userId: userId }, select: { id: true } },
+    rePosts: { where: { userId: userId }, select: { id: true } },
+    saves: { where: { userId: userId }, select: { id: true } },
+  };
   const posts = await prisma.post.findMany({
     where: whereCondition2,
     include: {
-      user: { select: { displayName: true, username: true, img: true } },
       rePost: {
-        include: {
-          user: { select: { displayName: true, username: true, img: true } },
-          likes: { where: { userId: userId }, select: { id: true } },
-          rePosts: { where: { userId: userId }, select: { id: true } },
-          saves: { where: { userId: userId }, select: { id: true } },
-          _count: { select: { likes: true, rePosts: true, comments: true } },
-        },
+        include: commonQuery,
       },
-      _count: { select: { likes: true, rePosts: true, comments: true } },
-      likes: { where: { userId: userId }, select: { id: true } },
-      rePosts: { where: { userId: userId }, select: { id: true } },
-      saves: { where: { userId: userId }, select: { id: true } },
+      ...commonQuery,
     },
     take: LIMIT,
     skip: (Number(page) - 1) * LIMIT,

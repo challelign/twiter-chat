@@ -47,9 +47,6 @@ const Feed = async ({ userProfileId }: { userProfileId?: string }) => {
         userId: userProfileId,
       }
     : {
-        // userId: {
-        //   in: [userId, ...followingsSelect.map((follow) => follow.followingId)],
-        // },
         parentPostId: null,
         userId: {
           in: [userId, ...idsSelect],
@@ -58,23 +55,21 @@ const Feed = async ({ userProfileId }: { userProfileId?: string }) => {
 
   // console.log("[whereCondition2]", whereCondition2);
 
+  const commonQuery = {
+    user: { select: { displayName: true, username: true, img: true } },
+    _count: { select: { likes: true, rePosts: true, comments: true } },
+    likes: { where: { userId: userId }, select: { id: true } },
+    rePosts: { where: { userId: userId }, select: { id: true } },
+    saves: { where: { userId: userId }, select: { id: true } },
+  };
+
   const posts = await prisma.post.findMany({
     where: whereCondition2,
     include: {
-      user: { select: { displayName: true, username: true, img: true } },
       rePost: {
-        include: {
-          user: { select: { displayName: true, username: true, img: true } },
-          _count: { select: { likes: true, rePosts: true, comments: true } },
-          likes: { where: { userId: userId }, select: { id: true } },
-          rePosts: { where: { userId: userId }, select: { id: true } },
-          saves: { where: { userId: userId }, select: { id: true } },
-        },
+        include: commonQuery,
       },
-      _count: { select: { likes: true, rePosts: true, comments: true } },
-      likes: { where: { userId: userId }, select: { id: true } },
-      rePosts: { where: { userId: userId }, select: { id: true } },
-      saves: { where: { userId: userId }, select: { id: true } },
+      ...commonQuery,
     },
 
     take: 3,
@@ -84,13 +79,13 @@ const Feed = async ({ userProfileId }: { userProfileId?: string }) => {
   // const posts = await prisma.post.findMany({ where: whereCondition });
   // console.log("[postsLength]", posts?.length);
 
-  // console.log("[posts]", posts);
+  console.log("[posts]", posts);
 
   return (
     <div className="">
       {posts.map((post) => (
         <div className="" key={post.id}>
-          <Post post={post as any} />
+          <Post post={post} />
         </div>
       ))}
       <InfiniteFeed userProfileId={userId} />
