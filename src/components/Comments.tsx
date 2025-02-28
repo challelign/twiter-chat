@@ -42,7 +42,7 @@ const Comments = ({
         },
       });
     }
-  }, [user, state.success, username]);
+  }, [user, state.success, username, postId]);
 
   return (
     <div className="">
